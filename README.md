@@ -3,7 +3,9 @@
 # Comp Sci 30
 
 ## Demos
-- [SquareMoving](SquareMoving)
+- [Square-Moving](SquareMoving)
+
 
 # Projects
+- [Interactive-Scene](InteractiveScene)
 
