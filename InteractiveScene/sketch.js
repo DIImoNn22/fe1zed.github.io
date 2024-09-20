@@ -88,8 +88,28 @@ class Snake {
     let head = this.body[this.body.length - 1];
 
     // Проверка выхода за границы экрана
-    if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height) {
-      this.endGame();
+    // if (head.x < 0 || head.x >= canvasX || head.y < 0 || head.y >= canvasY) {
+    //   this.endGame();
+    // }
+
+    if (head.x < 0){
+      head.x = canvasX;
+      snake.setDirection(-1,0);
+    }
+
+    if (head.x > canvasX){
+      head.x = 0 - gridSize;
+      snake.setDirection(1, 0);
+    }
+
+    if (head.y < 0){
+      head.y = canvasY;
+      snake.setDirection(0, -1);
+    }
+
+    if (head.y > canvasY){
+      head.y = 0 - gridSize;
+      snake.setDirection(0, 1);
     }
 
     // Проверка столкновения с самим собой
