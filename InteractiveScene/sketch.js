@@ -1,17 +1,21 @@
+let canvasX = 400;
+let canvasY = 400;
+
 let snake;
 let food;
 let gridSize = 20;
 let nFrameRate = 5;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(canvasX, canvasY);
   frameRate(nFrameRate);
+
   snake = new Snake();
   food = createFood();
 }
 
 function draw() {
-  background(255);
+  background(220);
 
   // Отрисовка еды
   fill(255, 0, 0);
@@ -31,8 +35,8 @@ function draw() {
 }
 
 function createFood() {
-  let cols = floor(width / gridSize);
-  let rows = floor(height / gridSize);
+  let cols = floor(canvasX / gridSize);
+  let rows = floor(canvasY / gridSize);
   return createVector(floor(random(cols)) * gridSize, floor(random(rows)) * gridSize);
 }
 
