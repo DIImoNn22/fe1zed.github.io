@@ -1,3 +1,14 @@
+// Dmitrii Pletmintsev
+// 9/23/2024 
+// Comp Sci 30
+// Iteractive Scene
+// This script interprets a modified snake game.
+
+
+/// <summary>
+///  
+/// </summary>
+
 let canvasX = 400;
 let canvasY = 400;
 
@@ -6,31 +17,38 @@ let food;
 let gridSize = 20;
 let nFrameRate = 5;
 
+let bestScore = 0;
+let currentScore = 0;
+
 function setup() {
   createCanvas(canvasX, canvasY);
   frameRate(nFrameRate);
 
   snake = new Snake();
   food = createFood();
+
+  getItem('best-score') == null? storeItem('best-score', bestScore) : bestScore = getItem('best-score');
+
+  console.log("Best score: " + bestScore);
 }
 
 function draw() {
   background(220);
 
-  // Отрисовка еды
+  // Drawing food 
   fill(255, 0, 0);
   rect(food.x, food.y, gridSize, gridSize);
 
-  // Движение змейки
+  // Snake mooving
   snake.move();
   snake.display();
 
-  // Проверка столкновения с едой
+  // Checking collision with food
   if (snake.eat(food)) {
     food = createFood();
   }
 
-  // Проверка столкновений
+  // Checking collision with wall
   snake.checkCollision();
 }
 
@@ -72,13 +90,14 @@ class Snake {
     this.body.push(head);
 
     if (this.growCount > 0) { this.growCount--; } 
-    else { this.body.shift(); } // Убираем последний элемент, если не растем
+    else { this.body.shift(); } //Clear the last element if not growing 
   }
 
   eat(pos) {
     let head = this.body[this.body.length - 1];
     if (head.x === pos.x && head.y === pos.y) {
       this.growCount++;
+      currentScore += 1;
       return true;
     }
     return false;
@@ -91,6 +110,8 @@ class Snake {
     // if (head.x < 0 || head.x >= canvasX || head.y < 0 || head.y >= canvasY) {
     //   this.endGame();
     // }
+
+    // Mirror position if hit the edge
 
     if (head.x < 0){
       head.x = canvasX;
@@ -112,7 +133,7 @@ class Snake {
       snake.setDirection(0, 1);
     }
 
-    // Проверка столкновения с самим собой
+    // Self-collision checking 
     for (let i = 0; i < this.body.length - 1; i++) {
       if (head.x === this.body[i].x && head.y === this.body[i].y) {
         this.endGame();
@@ -122,7 +143,10 @@ class Snake {
 
   endGame() {
     print("Game Over!");
-    noLoop();  // Остановка цикла draw
+    if (currentScore > bestScore){
+      storeItem('best-score', currentScore);
+    }
+    noLoop();  //Stop draw loop
   }
 
   display() {
