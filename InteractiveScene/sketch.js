@@ -27,7 +27,7 @@ function setup() {
   snake = new Snake();
   food = createFood();
 
-  getItem('best-score') == null? storeItem('best-score', bestScore) : bestScore = getItem('best-score');
+  bestScore = getItem('best-score') == null ? 0 : getItem('best-score');
 
   console.log("Best score: " + bestScore);
 }
@@ -35,11 +35,17 @@ function setup() {
 function draw() {
   background(220);
 
+  // Display current and best scores
+  fill(255,0,0);
+  textSize(32);
+  text("Score: " + currentScore, 10, 20);
+  text("Best Score: " + bestScore, 10, 40);
+
   // Drawing food 
   fill(255, 0, 0);
   rect(food.x, food.y, gridSize, gridSize);
 
-  // Snake mooving
+  // Snake moving
   snake.move();
   snake.display();
 
@@ -89,8 +95,11 @@ class Snake {
     head.y += this.ySpeed * gridSize;
     this.body.push(head);
 
-    if (this.growCount > 0) { this.growCount--; } 
-    else { this.body.shift(); } //Clear the last element if not growing 
+    if (this.growCount > 0) {
+      this.growCount--;
+    } else {
+      this.body.shift(); // Clear the last element if not growing
+    }
   }
 
   eat(pos) {
@@ -106,29 +115,23 @@ class Snake {
   checkCollision() {
     let head = this.body[this.body.length - 1];
 
-    // Проверка выхода за границы экрана
-    // if (head.x < 0 || head.x >= canvasX || head.y < 0 || head.y >= canvasY) {
-    //   this.endGame();
-    // }
-
     // Mirror position if hit the edge
-
-    if (head.x < 0){
+    if (head.x < 0) {
       head.x = canvasX;
-      snake.setDirection(-1,0);
+      snake.setDirection(-1, 0);
     }
 
-    if (head.x > canvasX){
+    if (head.x > canvasX) {
       head.x = 0 - gridSize;
       snake.setDirection(1, 0);
     }
 
-    if (head.y < 0){
+    if (head.y < 0) {
       head.y = canvasY;
       snake.setDirection(0, -1);
     }
 
-    if (head.y > canvasY){
+    if (head.y > canvasY) {
       head.y = 0 - gridSize;
       snake.setDirection(0, 1);
     }
@@ -143,10 +146,11 @@ class Snake {
 
   endGame() {
     print("Game Over!");
-    if (currentScore > bestScore){
-      storeItem('best-score', currentScore);
+    if (currentScore > bestScore) {
+      bestScore = currentScore;
+      storeItem('best-score', bestScore);
     }
-    noLoop();  //Stop draw loop
+    noLoop(); // Stop draw loop
   }
 
   display() {
