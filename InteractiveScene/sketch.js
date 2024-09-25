@@ -27,7 +27,7 @@ function setup() {
   snake = new Snake();
   food = createFood();
 
-  bestScore = getItem('best-score') == null ? 0 : getItem('best-score');
+  bestScore = getItem("best-score") === null ? 0 : getItem("best-score");
 
   console.log("Best score: " + bestScore);
 }
@@ -36,8 +36,8 @@ function draw() {
   background(220);
 
   // Display current and best scores
-  fill(255,0,0);
-  textSize(32);
+  fill(0);
+  textSize(16);
   text("Score: " + currentScore, 10, 20);
   text("Best Score: " + bestScore, 10, 40);
 
@@ -67,11 +67,14 @@ function createFood() {
 function keyPressed() {
   if ((keyCode === UP_ARROW || keyCode === 87) && snake.ySpeed === 0) {
     snake.setDirection(0, -1);
-  } else if ((keyCode === DOWN_ARROW || keyCode === 83) && snake.ySpeed === 0) {
+  } 
+  else if ((keyCode === DOWN_ARROW || keyCode === 83) && snake.ySpeed === 0) {
     snake.setDirection(0, 1);
-  } else if ((keyCode === RIGHT_ARROW || keyCode === 68) && snake.xSpeed === 0) {
+  } 
+  else if ((keyCode === RIGHT_ARROW || keyCode === 68) && snake.xSpeed === 0) {
     snake.setDirection(1, 0);
-  } else if ((keyCode === LEFT_ARROW || keyCode === 65) && snake.xSpeed === 0) {
+  } 
+  else if ((keyCode === LEFT_ARROW || keyCode === 65) && snake.xSpeed === 0) {
     snake.setDirection(-1, 0);
   }
 }
@@ -97,7 +100,8 @@ class Snake {
 
     if (this.growCount > 0) {
       this.growCount--;
-    } else {
+    } 
+    else {
       this.body.shift(); // Clear the last element if not growing
     }
   }
@@ -148,7 +152,7 @@ class Snake {
     print("Game Over!");
     if (currentScore > bestScore) {
       bestScore = currentScore;
-      storeItem('best-score', bestScore);
+      storeItem("best-score", bestScore);
     }
     noLoop(); // Stop draw loop
   }
