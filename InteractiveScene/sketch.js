@@ -1,8 +1,12 @@
 // Dmitrii Pletmintsev
 // 9/23/2024 
 // Comp Sci 30
-// Iteractive Scene
-// This script interprets a modified snake game.
+// - Iteractive Scene
+//   This script interprets a modified snake game where if you hit the edge, you will appear on other side.
+// - Extra for experts
+//   I used localStorage to save data of player's best score.
+//   I used text() to output the cuerrent score and best score.
+//   I used OOP to create a class Snake to control the snake behaviour.
 
 
 /// <summary>
@@ -26,6 +30,8 @@ function setup() {
 
   snake = new Snake();
   food = createFood();
+
+  // clearStorage();
 
   bestScore = getItem("best-score") === null ? 0 : getItem("best-score");
 
@@ -150,10 +156,7 @@ class Snake {
 
   endGame() {
     print("Game Over!");
-    if (currentScore > bestScore) {
-      bestScore = currentScore;
-      storeItem("best-score", bestScore);
-    }
+    storeItem("best-score", currentScore > bestScore? currentScore: bestScore);
     noLoop(); // Stop draw loop
   }
 
