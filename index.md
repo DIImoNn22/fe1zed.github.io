@@ -3,9 +3,10 @@
 # Comp Sci 30
 
 ## Demos
-- [Square-Moving](SquareMoving)
-- [Traffic-Light](FrafficLight)
+- [Square Moving](SquareMoving)
+- [Traffic Light](FrafficLight)
+- [Bouncing Balls](Bouncing-Balls)
 
 # Projects
-- [Interactive-Scene](InteractiveScene)
+- [Interactive Scene](InteractiveScene)
 
