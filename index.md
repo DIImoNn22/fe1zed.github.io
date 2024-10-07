@@ -7,7 +7,8 @@
 - [Traffic Light](FrafficLight)
 - [Bouncing Balls](Bouncing-Balls)
 - [Generative Art](Art)
-- [Perlin Noise](Perlin-Noise)
+- [Perlin Noise Ball](Perlin-Noise-Ball)
+- [Perlin Noise Terrain](Perlin-Noise-Terrain)
 
 # Projects
 - [Interactive Scene](InteractiveScene)
