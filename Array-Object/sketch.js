@@ -20,6 +20,7 @@ let character = {
   gravity: -9.81,
   isJumping: false,
   onGround: false,
+  jumpHeight: 150,
 };
 
 function setup() {
@@ -38,11 +39,17 @@ function draw() {
     fill("green");
     rect(someRect.x, someRect.y, someRect.w, someRect.h);
   }
+
+  // Character
   fill("red");
   showCharacter();
-  moveCharacter();
-  applyGravity();
+
+  // Applying forces
   isOnGround();
+  applyGravity();
+
+  // Moving
+  moveCharacter();
 }
 
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
@@ -77,7 +84,12 @@ function moveCharacter() {
   // Jumping
   if (character.isJumping === false && character.onGround){
     if (keyIsDown(32)) {
-      //character.y -= character.speed * 100;
+      character.isJumping = true;
+      jumpUpTo = character.y - character.jumpHeight;
+
+      while (character.y > jumpUpTo) {
+        character.y -= character.jumpSpeed * millis() / 1000000;
+      }
       console.log("Jumping!");
     } 
   }
@@ -97,8 +109,11 @@ function applyGravity() {
 }
 
 function isOnGround() { 
-  character.onGround = character.y + character.height <= height; 
-  if (character.isOnGround){
+  character.onGround = character.y + character.height >= height - 10; 
+
+  // if on ground -> giving ability to jump 
+  if (character.onGround){
     character.isJumping = false;
-  }
+    console.log("Player is on ground -> Giving ability to jump");
+  }  
 }
