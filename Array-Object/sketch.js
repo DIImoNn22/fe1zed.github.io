@@ -1,5 +1,5 @@
 let terrain = [];
-const numberOfRects = 15;
+const numberOfRects = 25;
 
 let character = {
   height: 100,
@@ -44,6 +44,8 @@ function draw() {
 
   // Check collision with terrain
   checkCollision();
+
+  console.log("character.onGround" + character.onGround);
 }
 
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
@@ -84,6 +86,7 @@ function moveCharacter() {
 
   // Jumping
   if (character.onGround && !character.isJumping && keyIsDown(32)) { // Space key
+    //console.log("Jumping!");
     character.velocityY = character.jumpHeight; // Start jump
     character.isJumping = true;
   }
@@ -100,7 +103,7 @@ function applyGravity() {
 }
 
 function isOnGround() {
-  character.onGround = character.y + character.height >= height - 1;
+  //character.onGround = character.y + character.height >= height - 1;
 
   if (character.onGround) {
     character.isJumping = false; // Reset jump when on the ground
@@ -121,6 +124,9 @@ function checkCollision() {
       character.velocityY = 0;
       character.onGround = true;
       break; // No need to check other terrain if collision is detected
+    }
+    else {
+      character.isOnGround = false;
     }
   }
 }

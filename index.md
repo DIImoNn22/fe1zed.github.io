@@ -9,6 +9,7 @@
 - [Generative Art](Art)
 - [Perlin Noise Ball](Perlin-Noise-Ball)
 - [Perlin Noise Terrain](Perlin-Noise-Terrain)
+- [Bubble Object Array](Bubble)
 
 # Projects
 - [Interactive Scene](InteractiveScene)
