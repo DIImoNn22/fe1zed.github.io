@@ -19,7 +19,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   let widthOfRects = width / numberOfRects;
   generateTerrain(widthOfRects);
-  character.y = height - character.height; // Set character on the ground
+  character.y = 0; // Set character on the ground
 }
 
 function draw() {
@@ -27,7 +27,8 @@ function draw() {
 
   noStroke();
 
-  for(let someRect of terrain) {
+  // Draw terrain
+  for (let someRect of terrain) {
     fill("green");
     rect(someRect.x, someRect.y, someRect.w, someRect.h);
   }
@@ -36,12 +37,13 @@ function draw() {
   fill("red");
   showCharacter();
 
-  // Applying forces
+  // Check collisions and apply gravity/movement
   isOnGround();
   applyGravity();
-
-  // Moving
   moveCharacter();
+
+  // Check collision with terrain
+  checkCollision();
 }
 
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
@@ -58,7 +60,7 @@ function generateTerrain(widthOfRect) {
   let time = 0;
   let deltaTime = 0.15;
 
-  for(let x = 0; x < width; x += widthOfRect) {
+  for (let x = 0; x < width; x += widthOfRect) {
     let theHeight = noise(time) * height;
 
     let someRect = spawnRetangle(x, widthOfRect, theHeight);
@@ -67,7 +69,7 @@ function generateTerrain(widthOfRect) {
   }
 }
 
-function showCharacter(){
+function showCharacter() {
   rect(character.x, character.y, character.width, character.height);
 }
 
@@ -102,5 +104,23 @@ function isOnGround() {
 
   if (character.onGround) {
     character.isJumping = false; // Reset jump when on the ground
+  }
+}
+
+function checkCollision() {
+  for (let someRect of terrain) {
+    // Check if character collides with the terrain rectangle
+    if (
+        character.x < someRect.x + someRect.w && // Right side of character
+        character.x + character.width > someRect.x && // Left side of character
+        character.y + character.height > someRect.y && // Bottom side of character
+        character.y < someRect.y + someRect.h // Top side of character
+    ) {
+      // Collision detected, place character on top of the terrain
+      character.y = someRect.y - character.height;
+      character.velocityY = 0;
+      character.onGround = true;
+      break; // No need to check other terrain if collision is detected
+    }
   }
 }
