@@ -1,12 +1,3 @@
-// Array and object notation
-// Dmitrii Pletmintsev
-// 10/8/2024
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
-
-
 let terrain = [];
 const numberOfRects = 15;
 
@@ -14,27 +5,28 @@ let character = {
   height: 100,
   width: 50,
   speed: 5,
-  jumpSpeed: 25,
+  jumpSpeed: 15,
   x: 0,
   y: 0,
-  gravity: -9.81,
+  gravity: 0.8,
+  velocityY: 0,
   isJumping: false,
   onGround: false,
-  jumpHeight: 150,
+  jumpHeight: -15,
 };
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
-  let widthOfRects = width / numberOfRects; 
+  let widthOfRects = width / numberOfRects;
   generateTerrain(widthOfRects);
+  character.y = height - character.height; // Set character on the ground
 }
 
 function draw() {
   background(220);
 
   noStroke();
-  
+
   for(let someRect of terrain) {
     fill("green");
     rect(someRect.x, someRect.y, someRect.w, someRect.h);
@@ -59,7 +51,6 @@ function spawnRetangle(leftSide, rectWidth, rectHeight) {
     w: rectWidth,
     h: rectHeight,
   };
-
   return theRect;
 }
 
@@ -81,39 +72,35 @@ function showCharacter(){
 }
 
 function moveCharacter() {
-  // Jumping
-  if (character.isJumping === false && character.onGround){
-    if (keyIsDown(32)) {
-      character.isJumping = true;
-      jumpUpTo = character.y - character.jumpHeight;
-
-      while (character.y > jumpUpTo) {
-        character.y -= character.jumpSpeed * millis() / 1000000;
-      }
-      console.log("Jumping!");
-    } 
-  }
-  // Moving to side
+  // Moving left and right
   if (keyIsDown(RIGHT_ARROW)) {
     character.x += character.speed;
-  } 
-  else if (keyIsDown(LEFT_ARROW)) {
+  }
+  if (keyIsDown(LEFT_ARROW)) {
     character.x -= character.speed;
+  }
+
+  // Jumping
+  if (character.onGround && !character.isJumping && keyIsDown(32)) { // Space key
+    character.velocityY = character.jumpHeight; // Start jump
+    character.isJumping = true;
   }
 }
 
 function applyGravity() {
-  if (character.y + character.height <= height) { 
-    character.y -= character.gravity;
+  character.y += character.velocityY;
+  character.velocityY += character.gravity; // Gravity pulls down
+
+  if (character.y + character.height > height) { // Keep on the ground
+    character.y = height - character.height;
+    character.velocityY = 0;
   }
 }
 
-function isOnGround() { 
-  character.onGround = character.y + character.height >= height - 10; 
+function isOnGround() {
+  character.onGround = character.y + character.height >= height - 1;
 
-  // if on ground -> giving ability to jump 
-  if (character.onGround){
-    character.isJumping = false;
-    console.log("Player is on ground -> Giving ability to jump");
-  }  
+  if (character.onGround) {
+    character.isJumping = false; // Reset jump when on the ground
+  }
 }
