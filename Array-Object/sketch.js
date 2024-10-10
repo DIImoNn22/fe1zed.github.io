@@ -110,7 +110,7 @@ function isOnGround() {
 function checkCollision() {
   for (let someRect of terrain) {
     // Check if character collides with the terrain rectangle
-    if (
+    if (// eslint-disable-next-line indent
         character.x < someRect.x + someRect.w && // Right side of character
         character.x + character.width > someRect.x && // Left side of character
         character.y + character.height > someRect.y && // Bottom side of character
